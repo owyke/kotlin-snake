@@ -12,7 +12,10 @@ data class State(
     val food: List<Point>
 ) {
     fun withinBounds(point: Point) =
-
         point.x in 0 until width &&
                 point.y in 0 until height
+
+    fun getAllOccupied() =
+        snakes.flatMap { snake -> snake.body } + you.body
+
 }

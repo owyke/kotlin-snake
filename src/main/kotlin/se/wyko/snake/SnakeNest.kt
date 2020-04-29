@@ -1,15 +1,17 @@
 package se.wyko.snake
 
-import se.wyko.snake.implementations.DefaultSnakeBrain
-import se.wyko.snake.implementations.RandomSafeSnakeBrain
-import se.wyko.snake.implementations.RandomSnakeBrain
+import se.wyko.snake.implementations.AvoidNarrow
+import se.wyko.snake.implementations.Default
+import se.wyko.snake.implementations.RandomSafe
+import se.wyko.snake.implementations.Random
 import se.wyko.snake.model.Point
 import se.wyko.snake.model.State
 
 enum class Breed(val snakeBrain: SnakeBrain) {
-    DEFAULT(DefaultSnakeBrain),
-    RANDOM(RandomSnakeBrain),
-    RANDOMSAFE(RandomSafeSnakeBrain)
+    DEFAULT(Default),
+    RANDOM(Random),
+    RANDOMSAFE(RandomSafe),
+    AVOIDNARROW(AvoidNarrow)
 }
 
 enum class Direction(val point: Point) {

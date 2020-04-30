@@ -9,17 +9,7 @@ import se.wyko.snake.model.State
 object FillSearch : Snake {
     val log = LoggerFactory.getLogger(FillSearch::class.java)
 
-    private fun getAdjacentOccupied(newPos: Point, state: State): Int {
-        return Direction.values()
-            .map {
-                if (state.getAllOccupied().contains(it.point + newPos)) 1 else 0
-            }
-            .sum()
-    }
-
     override fun nextMove(state: State): Direction {
-
-
         val byReachableTiles: Map<Int, List<Direction>> = Direction.values()
             .filter { dir ->
                 state.canMoveTo(state.you.body.first() + dir.point)

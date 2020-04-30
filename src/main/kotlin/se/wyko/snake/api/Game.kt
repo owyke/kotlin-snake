@@ -14,7 +14,7 @@ data class Game(
             width = board.width.toByte(),
             height = board.height.toByte(),
             you = se.wyko.snake.model.Snake(you.body, you.health),
-            snakes = board.snakes.map { se.wyko.snake.model.Snake(it.body, it.health) },
+            enemies = board.snakes.filter{it.id != you.id}.map { se.wyko.snake.model.Snake(it.body, it.health) },
             food = board.food
         )
 

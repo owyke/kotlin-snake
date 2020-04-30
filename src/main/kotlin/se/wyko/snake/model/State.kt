@@ -9,7 +9,7 @@ data class State(
     val width: Byte,
     val height: Byte,
     val you: Snake,
-    val snakes: List<Snake>,
+    val enemies: List<Snake>,
     val food: List<Point>
 ) {
     fun withinBounds(point: Point) =
@@ -17,7 +17,7 @@ data class State(
                 point.y in 0 until height
 
     fun getAllOccupied() =
-        snakes.flatMap { snake -> snake.body } + you.body
+        enemies.flatMap { snake -> snake.body } + you.body
 
     fun canMoveTo(point: Point) = !getAllOccupied().contains(point) && withinBounds(point)
 

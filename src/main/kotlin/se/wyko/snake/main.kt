@@ -41,9 +41,9 @@ private fun end(ctx: Context) {
 }
 
 private fun start(ctx: Context) {
+ctx.status(200)
     ctx.json(
         mapOf(
-            "color" to "#000000",
             "headType" to "bendr",
             "tailType" to "pixel"
         )

@@ -2,21 +2,19 @@ package se.wyko.snake.implementations
 
 import org.slf4j.LoggerFactory
 import se.wyko.snake.Direction
-import se.wyko.snake.SnakeBrain
+import se.wyko.snake.Snake
 import se.wyko.snake.model.Point
 import se.wyko.snake.model.State
 
-object AvoidNarrow : SnakeBrain {
+object AvoidNarrow : Snake {
     val log = LoggerFactory.getLogger(AvoidNarrow::class.java)
 
-
-    fun getAdjacentOccupied(newPos: Point, state: State): Int {
+    private fun getAdjacentOccupied(newPos: Point, state: State): Int {
         return Direction.values()
             .map {
-                if(state.getAllOccupied().contains(it.point + newPos)) 1 else 0
+                if (state.getAllOccupied().contains(it.point + newPos)) 1 else 0
             }
             .sum()
-
     }
 
     override fun nextMove(state: State): Direction {

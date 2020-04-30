@@ -13,8 +13,8 @@ data class Game(
         State(
             width = board.width.toByte(),
             height = board.height.toByte(),
-            you = se.wyko.snake.model.Snake(you.body),
-            snakes = board.snakes.map { se.wyko.snake.model.Snake(it.body) },
+            you = se.wyko.snake.model.Snake(you.body, you.health),
+            snakes = board.snakes.map { se.wyko.snake.model.Snake(it.body, it.health) },
             food = board.food
         )
 

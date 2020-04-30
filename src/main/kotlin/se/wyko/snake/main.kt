@@ -1,4 +1,4 @@
-package se.wyko.snake.api
+package se.wyko.snake
 
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
@@ -7,7 +7,7 @@ import io.javalin.http.Context
 import org.eclipse.jetty.http.HttpStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import se.wyko.snake.Breed
+import se.wyko.snake.api.Game
 
 val log: Logger = LoggerFactory.getLogger("Main")
 
@@ -16,7 +16,6 @@ fun main() {
         config.requestLogger { ctx, ms ->
             log.info("${ctx.path()} took [$ms ms]")
         }
-        config.showJavalinBanner = false
     }.start(7000)
 
     JavalinValidation.register(Breed::class.java) {
@@ -25,13 +24,9 @@ fun main() {
 
     app.routes {
         path(":breed") {
-            get("/move", ::move)
             post("/move", ::move)
-            get("/start", ::start)
             post("/start", ::start)
-            get("/end", ::end)
             post("/end", ::end)
-            get("/ping", ::ping)
             post("/ping", ::ping)
         }
     }
@@ -57,8 +52,9 @@ private fun start(ctx: Context) {
 }
 
 private fun move(ctx: Context) {
-    val game = ctx.bodyAsClass(Game::class.java)
-    val moveStr = ctx.pathParam("breed", Breed::class.java).get().snakeBrain.nextMove(game.toState()).toString().toLowerCase()
+    val game = ctx.bodyValidator<Game>().get()
+    val breed = ctx.pathParam<Breed>("breed").get()
+    val moveStr = breed.snake.nextMove(game.toState()).toString().toLowerCase()
     log.info("Moving $moveStr")
     ctx.json(mapOf("move" to moveStr))
 }

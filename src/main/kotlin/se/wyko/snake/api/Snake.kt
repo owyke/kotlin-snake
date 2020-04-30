@@ -4,7 +4,7 @@ import se.wyko.snake.model.Point
 
 data class Snake(
     val body: List<Point>,
-    val health: Int,
+    val health: Short,
     val id: String,
     val name: String,
     val shout: String?

@@ -1,7 +1,8 @@
 package se.wyko.snake.model
 
-inline class Snake(
-    val body: List<Point>
+data class Snake(
+    val body: List<Point>,
+    val health: Short
 )
 
 data class State(
@@ -17,5 +18,7 @@ data class State(
 
     fun getAllOccupied() =
         snakes.flatMap { snake -> snake.body } + you.body
+
+    fun canMoveTo(point: Point) = !getAllOccupied().contains(point) && withinBounds(point)
 
 }

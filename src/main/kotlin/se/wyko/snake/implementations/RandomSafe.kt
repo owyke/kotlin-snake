@@ -2,14 +2,11 @@ package se.wyko.snake.implementations
 
 import org.slf4j.LoggerFactory
 import se.wyko.snake.Direction
-import se.wyko.snake.SnakeBrain
+import se.wyko.snake.Snake
 import se.wyko.snake.model.State
 
-object RandomSafe : SnakeBrain {
+object RandomSafe : Snake {
     val log = LoggerFactory.getLogger(RandomSafe::class.java)
-
-
-
 
     override fun nextMove(state: State): Direction {
         val currPos = state.you.body.first()

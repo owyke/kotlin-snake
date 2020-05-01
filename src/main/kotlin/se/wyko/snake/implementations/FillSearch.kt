@@ -6,6 +6,7 @@ import se.wyko.snake.Snake
 import se.wyko.snake.model.Point
 import se.wyko.snake.model.State
 
+@ExperimentalStdlibApi
 object FillSearch : Snake {
     val log = LoggerFactory.getLogger(FillSearch::class.java)
 
@@ -22,7 +23,6 @@ object FillSearch : Snake {
 
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     private fun reachableTiles(direction: Direction, state: State): Int {
         val currPos = state.you.body.first()
         val explored = mutableSetOf<Point>(currPos)

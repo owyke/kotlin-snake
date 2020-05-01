@@ -1,8 +1,11 @@
+import org.gradle.jvm.tasks.Jar
+
 plugins {
     kotlin("jvm") version "1.3.72"
 }
 
-group = "se.wyke"
+
+group = "se.wyko"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -19,6 +22,21 @@ dependencies {
 
 }
 
+
+val fatJar = task("fatJar", type = Jar::class) {
+    baseName = "fat-snake"
+    manifest {
+        attributes["Main-Class"] = "se.wyko.snake.MainKt"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    with(tasks.jar.get() as CopySpec)
+}
+
+tasks {
+    "build" {
+        dependsOn(fatJar)
+    }
+}
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"

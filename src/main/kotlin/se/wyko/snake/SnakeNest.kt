@@ -11,6 +11,7 @@ enum class Breed(
     RANDOM(Random),
     RANDOMSAFE(RandomSafe),
     AVOIDNARROW(AvoidNarrow),
+    @ExperimentalStdlibApi
     FILLSEARCH(FillSearch)
 
 }
@@ -23,5 +24,5 @@ enum class Direction(val point: Point) {
 }
 
 interface Snake {
-    fun nextMove(game: State): Direction
+    fun nextMove(state: State): Direction
 }

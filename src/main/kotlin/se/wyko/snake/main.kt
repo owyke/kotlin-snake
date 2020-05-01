@@ -16,7 +16,7 @@ fun main() {
         config.requestLogger { ctx, ms ->
             log.info("${ctx.path()} took [$ms ms]")
         }
-    }.start(7000)
+    }.start(System.getenv("PORT")?.toInt() ?: 7000)
 
     JavalinValidation.register(Breed::class.java) {
         Breed.valueOf(it.toUpperCase())

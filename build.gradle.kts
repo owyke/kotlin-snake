@@ -22,8 +22,7 @@ dependencies {
 
 }
 
-
-val fatJar = task("fatJar", type = Jar::class) {
+task(name = "stage", type = Jar::class) {
     baseName = "fat-snake"
     manifest {
         attributes["Main-Class"] = "se.wyko.snake.MainKt"
@@ -32,11 +31,6 @@ val fatJar = task("fatJar", type = Jar::class) {
     with(tasks.jar.get() as CopySpec)
 }
 
-tasks {
-    "build" {
-        dependsOn(fatJar)
-    }
-}
 tasks {
     compileKotlin {
         kotlinOptions.jvmTarget = "1.8"

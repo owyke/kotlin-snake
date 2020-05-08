@@ -11,17 +11,38 @@ object FillSearch : Snake {
     val log = LoggerFactory.getLogger(FillSearch::class.java)
 
     override fun nextMove(state: State): Direction {
-        val byReachableTiles: Map<Int, List<Direction>> = Direction.values()
-            .filter { dir ->
-                state.canMoveTo(state.you.body.first() + dir.point)
-            }
-            .groupBy {
-                reachableTiles(it, state)
-            }
-        log.info("$byReachableTiles")
-        return byReachableTiles[byReachableTiles.keys.max()]!!.random()
-
+        val moveEffects: Map<Int, List<MoveData>> =
+            Direction.values().toList().shuffled()
+                .filter { dir ->
+                    state.canMoveTo(state.you.body.first() + dir.point)
+                }
+                .groupBy(
+                    { reachableTiles(it, state) },
+                    {
+                        val newPos = state.you.head + it.point
+                        MoveData(
+                            it,
+                            food = newPos in state.food,
+                            reachableByLargerSnake = state.adjacentToBiggerSnakeHead(newPos),
+                            reachableBySmallerSnake = state.adjacentToSmallerSnakeHead(newPos)
+                        )
+                    }
+                )
+        log.info("$moveEffects")
+        val biggestArea = moveEffects.keys.max()
+        return moveEffects[biggestArea]!!
+            .filterNot { it.reachableByLargerSnake } // Dont get too close to bigger snake
+            .sortedWith(compareBy({ it.reachableBySmallerSnake }, { it.food })) // Get closer to small snake, and eat if possible
+            .map { it.direction }
+            .last()
     }
+
+    data class MoveData(
+        val direction: Direction,
+        val food: Boolean,
+        val reachableByLargerSnake: Boolean,
+        val reachableBySmallerSnake: Boolean
+    )
 
     private fun reachableTiles(direction: Direction, state: State): Int {
         val currPos = state.you.body.first()

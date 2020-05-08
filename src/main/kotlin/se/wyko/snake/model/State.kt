@@ -1,9 +1,13 @@
 package se.wyko.snake.model
 
+import se.wyko.snake.Direction
+
 data class Snake(
     val body: List<Point>,
     val health: Short
-)
+) {
+    val head = body.first()
+}
 
 data class State(
     val width: Byte,
@@ -20,5 +24,25 @@ data class State(
         enemies.flatMap { snake -> snake.body } + you.body
 
     fun canMoveTo(point: Point) = !getAllOccupied().contains(point) && withinBounds(point)
+
+    fun adjacentToBiggerSnakeHead(point: Point): Boolean {
+        return point in enemies
+            .filter { you.body.size <= it.body.size }
+            .flatMap { snek ->
+                Direction.values().map { dir ->
+                    snek.head + dir.point
+                }
+            }
+    }
+
+    fun adjacentToSmallerSnakeHead(point: Point): Boolean {
+        return point in enemies
+            .filter { you.body.size > it.body.size }
+            .flatMap { snek ->
+                Direction.values().map { dir ->
+                    snek.head + dir.point
+                }
+            }
+    }
 
 }

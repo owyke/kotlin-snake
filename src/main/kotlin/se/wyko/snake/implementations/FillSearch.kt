@@ -31,8 +31,7 @@ object FillSearch : Snake {
         log.info("$moveEffects")
         val biggestArea = moveEffects.keys.max()
         return moveEffects[biggestArea]!!
-            .filterNot { it.reachableByLargerSnake } // Dont get too close to bigger snake
-            .sortedWith(compareBy({ it.reachableBySmallerSnake }, { it.food })) // Get closer to small snake, and eat if possible
+            .sortedWith(compareBy({ !it.reachableByLargerSnake }, { it.reachableBySmallerSnake }, { it.food })) // Avoid bigger snakes, Get closer to small snake, and eat if possible
             .map { it.direction }
             .last()
     }
